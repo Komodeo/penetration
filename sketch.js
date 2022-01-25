@@ -1,8 +1,8 @@
 //build grid
 var grid = {
-  columns: 5,
-  rows: 12,
-  boxSize: 50,
+  columns: 1,
+  rows: 1,
+  boxSize: 500,
   rgb: {
     r: 252,
     g: 225,
@@ -66,8 +66,9 @@ function setup() {
 
 function draw() {
   //set number of rows and columns based on mouse position
-  grid.columns = Math.ceil(winMouseX / grid.boxSize);
-  grid.rows = Math.ceil(winMouseY / grid.boxSize);
+  // grid.columns = Math.ceil(winMouseX / grid.boxSize);
+  // grid.rows = Math.ceil(winMouseY / grid.boxSize);
+
   //create canvas
   createCanvas(grid.columns * grid.boxSize, grid.rows * grid.boxSize);
   background(grid.rgb.r, grid.rgb.g, grid.rgb.b);
@@ -105,15 +106,18 @@ function draw() {
       fill(0);
       ellipse(centerX, centerY + penis.tipSize / 2 + penis.posY, penis.tipSize);
 
+      //move penis with mouse
+      penis.posY = winMouseY - centerY - (penis.head.size);
+
       //vignette
-      strokeWeight(vignette.strokeSize);
-      //set colors based on column and row
-      vignette.rgb.r = map(1 - (column / (grid.columns - 0.999)), 0, 1, 0, 255); //red decreases from left to right
-      vignette.rgb.g = map(1 - (row / (grid.rows - 0.999)), 0, 1, 0, 255); //green decreases from top to bottom
-      vignette.rgb.b = map(column / grid.columns, 0, 1, 0, 255); //blue increases from left to right
-      stroke(vignette.rgb.r, vignette.rgb.g, vignette.rgb.b);
-      noFill();
-      ellipse(centerX, centerY, vignette.size);
+      // strokeWeight(vignette.strokeSize);
+      // //set colors based on column and row
+      // vignette.rgb.r = map(1 - (column / (grid.columns - 0.999)), 0, 1, 0, 255); //red decreases from left to right
+      // vignette.rgb.g = map(1 - (row / (grid.rows - 0.999)), 0, 1, 0, 255); //green decreases from top to bottom
+      // vignette.rgb.b = map(column / grid.columns, 0, 1, 0, 255); //blue increases from left to right
+      // stroke(vignette.rgb.r, vignette.rgb.g, vignette.rgb.b);
+      // noFill();
+      // ellipse(centerX, centerY, vignette.size);
     }
   }
 
