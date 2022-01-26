@@ -89,23 +89,21 @@ function draw() {
       var centerX = grid.boxSize / 2 + column * grid.boxSize;
       var centerY = grid.boxSize / 2 + row * grid.boxSize;
 
+      //draw vulva bottom//
       strokeWeight(0);
-      //draw vulva//
       //majora
       fill(vulva.majora.rgb.r, vulva.majora.rgb.g, vulva.majora.rgb.b);
       beginShape();
-      vertex(centerX, centerY - vulva.majora.height + vulva.posY);
-      vertex(centerX + vulva.majora.width, centerY + vulva.posY);
-      vertex(centerX, centerY + vulva.majora.height + vulva.posY);
-      vertex(centerX - vulva.majora.width, centerY + vulva.posY);
+      vertex(centerX + vulva.majora.width, centerY + vulva.posY); //right
+      vertex(centerX, centerY + vulva.majora.height + vulva.posY); //bottom
+      vertex(centerX - vulva.majora.width, centerY + vulva.posY); //left
       endShape(CLOSE);
       //minora
       fill(vulva.minora.rgb.r, vulva.minora.rgb.g, vulva.minora.rgb.b);
       beginShape();
-      vertex(centerX, centerY - vulva.minora.height + vulva.posY);
-      vertex(centerX + vulva.minora.width, centerY + vulva.posY);
-      vertex(centerX, centerY + vulva.minora.height + vulva.posY);
-      vertex(centerX - vulva.minora.width, centerY + vulva.posY);
+      vertex(centerX + vulva.minora.width, centerY + vulva.posY); //right
+      vertex(centerX, centerY + vulva.minora.height + vulva.posY); //bottom
+      vertex(centerX - vulva.minora.width, centerY + vulva.posY); //left
       endShape(CLOSE);
 
       //draw penis//      
@@ -124,6 +122,29 @@ function draw() {
 
       //move penis with mouse
       penis.posY = winMouseY - centerY - (penis.head.size);
+
+      
+      //draw outside skin top
+      fill(grid.rgb.r, grid.rgb.g, grid.rgb.b);
+      noStroke();
+      rect(0, 0, width, centerY + vulva.posY);
+
+      //draw vulva top//
+      strokeWeight(0);
+      //majora
+      fill(vulva.majora.rgb.r, vulva.majora.rgb.g, vulva.majora.rgb.b);
+      beginShape();
+      vertex(centerX, centerY - vulva.majora.height + vulva.posY); //top
+      vertex(centerX + vulva.majora.width, centerY + vulva.posY); //right
+      vertex(centerX - vulva.majora.width, centerY + vulva.posY); //left
+      endShape(CLOSE);
+      //minora
+      fill(vulva.minora.rgb.r, vulva.minora.rgb.g, vulva.minora.rgb.b);
+      beginShape();
+      vertex(centerX, centerY - vulva.minora.height + vulva.posY); //top
+      vertex(centerX + vulva.minora.width, centerY + vulva.posY); //right
+      vertex(centerX - vulva.minora.width, centerY + vulva.posY); //left
+      endShape(CLOSE);
 
       //vignette
       // strokeWeight(vignette.strokeSize);
