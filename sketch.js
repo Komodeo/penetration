@@ -16,9 +16,9 @@ scale = grid.boxSize / 100;
 var vulva = {
   posY: -5 * scale,
   majora: {
-    height: 40 * scale,
+    height: 35 * scale,
     width: 10 * scale,
-    startWidth: 10 * scale,
+    startWidth: 7 * scale,
     rgb: {
       r: 234,
       g: 154,
@@ -140,10 +140,11 @@ function draw() {
 
   //stretch vulva when penis enters//
   if (penis.posY < vulva.posY) {
-    vulva.minora.width = PytX + vulva.minora.startWidth; //stretch minora
+    vulva.minora.width = PytX + random(0, vulva.minora.startWidth); //stretch minora on head
+    //stretch minora on shaft
     if (vulva.minora.width < penis.shaft.size / 2 + vulva.minora.startWidth && penis.head.posY < penetrationPosY ||
       penis.head.posY < penetrationPosY - penis.head.size / 2) {
-      vulva.minora.width = penis.shaft.size / 2 + vulva.minora.startWidth;
+      vulva.minora.width = penis.shaft.size / 2 + random(0, vulva.minora.startWidth);
     }
   }
   else {
