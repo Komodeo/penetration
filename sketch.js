@@ -44,6 +44,14 @@ var penis = {
       b: 47
     }
   },
+  shaft: {
+    size: 55 * scale,
+    rgb: {
+      r: 71,
+      g: 43,
+      b: 12
+    }
+  },
   tipSize: 5 * scale,
   posY: 0 * scale
 };
@@ -82,7 +90,7 @@ function draw() {
       var centerY = grid.boxSize / 2 + row * grid.boxSize;
 
       strokeWeight(0);
-      //position vulva
+      //draw vulva//
       //majora
       fill(vulva.majora.rgb.r, vulva.majora.rgb.g, vulva.majora.rgb.b);
       beginShape();
@@ -100,9 +108,17 @@ function draw() {
       vertex(centerX - vulva.minora.width, centerY + vulva.posY);
       endShape(CLOSE);
 
-      //penis
+      //draw penis//      
+      //shaft
+      fill(penis.shaft.rgb.r, penis.shaft.rgb.g, penis.shaft.rgb.b);
+      rect(centerX - penis.shaft.size / 2, centerY + penis.head.size / 2 + penis.posY, 
+      penis.shaft.size, height - (centerY + penis.head.size / 2 + penis.posY));
+
+      //head
       fill(penis.head.rgb.r, penis.head.rgb.g, penis.head.rgb.b);
       ellipse(centerX, centerY + penis.head.size / 2 + penis.posY, penis.head.size);
+
+      //tip
       fill(0);
       ellipse(centerX, centerY + penis.tipSize / 2 + penis.posY, penis.tipSize);
 
