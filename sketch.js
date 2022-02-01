@@ -15,7 +15,7 @@ scale = grid.boxSize / 100;
 //define objects
 var vulva = {
   posY: -5 * scale,
-  majora: {
+  minora: {
     height: 35 * scale,  //height and width halved for convenience
     startWidth: 7 * scale,
     rgb: {
@@ -24,7 +24,7 @@ var vulva = {
       b: 183
     }
   },
-  minora: {
+  vagina: {
     height: 10 * scale,  //height and width halved for convenience
     startWidth: 2 * scale,
     rgb: {
@@ -83,19 +83,19 @@ function draw() {
 
   //draw vulva bottom//
   strokeWeight(0);
-  //majora
-  fill(vulva.majora.rgb.r, vulva.majora.rgb.g, vulva.majora.rgb.b);
-  beginShape();
-  vertex(centerX + vulva.majora.width, penetrationPosY); //right
-  vertex(centerX, centerY + vulva.majora.height + vulva.posY); //bottom
-  vertex(centerX - vulva.majora.width, penetrationPosY); //left
-  endShape(CLOSE);
   //minora
   fill(vulva.minora.rgb.r, vulva.minora.rgb.g, vulva.minora.rgb.b);
   beginShape();
   vertex(centerX + vulva.minora.width, penetrationPosY); //right
   vertex(centerX, centerY + vulva.minora.height + vulva.posY); //bottom
   vertex(centerX - vulva.minora.width, penetrationPosY); //left
+  endShape(CLOSE);
+  //vagina
+  fill(vulva.vagina.rgb.r, vulva.vagina.rgb.g, vulva.vagina.rgb.b);
+  beginShape();
+  vertex(centerX + vulva.vagina.width, penetrationPosY); //right
+  vertex(centerX, centerY + vulva.vagina.height + vulva.posY); //bottom
+  vertex(centerX - vulva.vagina.width, penetrationPosY); //left
   endShape(CLOSE);
 
   //draw penis//      
@@ -114,30 +114,30 @@ function draw() {
   noStroke();
   rect(0, 0, width, penetrationPosY);
 
-  //draw mound
+  //draw majora
   stroke(0);
   strokeWeight(1);
   noFill();
-  bezier(centerX - vulva.majora.width, centerY + vulva.posY, 
-    centerX, centerY + vulva.posY - vulva.majora.height - 100, 
-    centerX, centerY + vulva.posY - vulva.majora.height - 100, 
-    centerX + vulva.majora.width, centerY + vulva.posY);
+  bezier(centerX - vulva.minora.width, centerY + vulva.posY, 
+    centerX, centerY + vulva.posY - vulva.minora.height - 100, 
+    centerX, centerY + vulva.posY - vulva.minora.height - 100, 
+    centerX + vulva.minora.width, centerY + vulva.posY);
 
   //draw vulva top//
   strokeWeight(0);
-  //majora
-  fill(vulva.majora.rgb.r, vulva.majora.rgb.g, vulva.majora.rgb.b);
-  beginShape();
-  vertex(centerX, centerY - vulva.majora.height + vulva.posY); //top
-  vertex(centerX + vulva.majora.width, penetrationPosY); //right
-  vertex(centerX - vulva.majora.width, penetrationPosY); //left
-  endShape(CLOSE);
   //minora
   fill(vulva.minora.rgb.r, vulva.minora.rgb.g, vulva.minora.rgb.b);
   beginShape();
   vertex(centerX, centerY - vulva.minora.height + vulva.posY); //top
   vertex(centerX + vulva.minora.width, penetrationPosY); //right
   vertex(centerX - vulva.minora.width, penetrationPosY); //left
+  endShape(CLOSE);
+  //vagina
+  fill(vulva.vagina.rgb.r, vulva.vagina.rgb.g, vulva.vagina.rgb.b);
+  beginShape();
+  vertex(centerX, centerY - vulva.vagina.height + vulva.posY); //top
+  vertex(centerX + vulva.vagina.width, penetrationPosY); //right
+  vertex(centerX - vulva.vagina.width, penetrationPosY); //left
   endShape(CLOSE);
 
   //set variables for head collision detection
@@ -147,17 +147,17 @@ function draw() {
 
   //stretch vulva when penis enters//
   if (penis.posY < vulva.posY) {
-    vulva.minora.width = PytX + random(0, vulva.minora.startWidth); //stretch minora on head
-    //stretch minora on shaft
-    if (vulva.minora.width < penis.shaft.size / 2 + vulva.minora.startWidth && penis.head.posY < penetrationPosY ||
+    vulva.vagina.width = PytX + random(0, vulva.vagina.startWidth); //stretch vagina on head
+    //stretch vagina on shaft
+    if (vulva.vagina.width < penis.shaft.size / 2 + vulva.vagina.startWidth && penis.head.posY < penetrationPosY ||
       penis.head.posY < penetrationPosY - penis.head.size / 2) {
-      vulva.minora.width = penis.shaft.size / 2 + random(0, vulva.minora.startWidth);
+      vulva.vagina.width = penis.shaft.size / 2 + random(0, vulva.vagina.startWidth);
     }
   }
   else {
-    vulva.minora.width = vulva.minora.startWidth;
+    vulva.vagina.width = vulva.vagina.startWidth;
   }
-  vulva.majora.width = vulva.minora.width + vulva.majora.startWidth - vulva.minora.startWidth; //stretch majora
+  vulva.minora.width = vulva.vagina.width + vulva.minora.startWidth - vulva.vagina.startWidth; //stretch minora
 
   //move penis with mouse
   penis.posY = winMouseY - centerY - (penis.head.size);
