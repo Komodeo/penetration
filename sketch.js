@@ -16,8 +16,7 @@ scale = grid.boxSize / 100;
 var vulva = {
   posY: -5 * scale,
   majora: {
-    height: 35 * scale,
-    width: 10 * scale,
+    height: 35 * scale,  //height and width halved for convenience
     startWidth: 7 * scale,
     rgb: {
       r: 234,
@@ -26,8 +25,7 @@ var vulva = {
     }
   },
   minora: {
-    height: 10 * scale,
-    width: 2 * scale,
+    height: 10 * scale,  //height and width halved for convenience
     startWidth: 2 * scale,
     rgb: {
       r: 255,
@@ -115,6 +113,15 @@ function draw() {
   fill(grid.rgb.r, grid.rgb.g, grid.rgb.b);
   noStroke();
   rect(0, 0, width, penetrationPosY);
+
+  //draw mound
+  stroke(0);
+  strokeWeight(1);
+  noFill();
+  bezier(centerX - vulva.majora.width, centerY + vulva.posY, 
+    centerX, centerY + vulva.posY - vulva.majora.height - 100, 
+    centerX, centerY + vulva.posY - vulva.majora.height - 100, 
+    centerX + vulva.majora.width, centerY + vulva.posY);
 
   //draw vulva top//
   strokeWeight(0);
