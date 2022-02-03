@@ -15,9 +15,18 @@ scale = grid.boxSize / 100;
 //define objects
 var vulva = {
   posY: -5 * scale,
+  majora: {
+    height: 80 * scale,  //height and width halved for convenience
+    startWidth: 40 * scale,
+    rgb: {
+      r: 255,
+      g: 189,
+      b: 214
+    }
+  },
   minora: {
     height: 35 * scale,  //height and width halved for convenience
-    startWidth: 7 * scale,
+    startWidth: 3 * scale,
     rgb: {
       r: 234,
       g: 154,
@@ -26,7 +35,7 @@ var vulva = {
   },
   vagina: {
     height: 10 * scale,  //height and width halved for convenience
-    startWidth: 2 * scale,
+    startWidth: 1 * scale,
     rgb: {
       r: 255,
       g: 135,
@@ -83,6 +92,10 @@ function draw() {
 
   //draw vulva bottom//
   strokeWeight(0);
+  //draw majora top
+  noStroke();
+  fill(vulva.majora.rgb.r, vulva.majora.rgb.g, vulva.majora.rgb.b);
+  arc(centerX, penetrationPosY, vulva.majora.width, vulva.majora.height, 0, PI);
   //minora
   fill(vulva.minora.rgb.r, vulva.minora.rgb.g, vulva.minora.rgb.b);
   beginShape();
@@ -114,17 +127,12 @@ function draw() {
   noStroke();
   rect(0, 0, width, penetrationPosY);
 
-  //draw majora
-  stroke(0);
-  strokeWeight(1);
-  noFill();
-  bezier(centerX - vulva.minora.width, centerY + vulva.posY, 
-    centerX, centerY + vulva.posY - vulva.minora.height - 100, 
-    centerX, centerY + vulva.posY - vulva.minora.height - 100, 
-    centerX + vulva.minora.width, centerY + vulva.posY);
-
   //draw vulva top//
   strokeWeight(0);
+  //draw majora top
+  noStroke();
+  fill(vulva.majora.rgb.r, vulva.majora.rgb.g, vulva.majora.rgb.b);
+  arc(centerX, penetrationPosY, vulva.majora.width, vulva.majora.height, PI, 0);
   //minora
   fill(vulva.minora.rgb.r, vulva.minora.rgb.g, vulva.minora.rgb.b);
   beginShape();
@@ -158,6 +166,7 @@ function draw() {
     vulva.vagina.width = vulva.vagina.startWidth;
   }
   vulva.minora.width = vulva.vagina.width + vulva.minora.startWidth - vulva.vagina.startWidth; //stretch minora
+  vulva.majora.width = vulva.minora.width + vulva.majora.startWidth - vulva.minora.startWidth; //stretch majora
 
   //move penis with mouse
   penis.posY = winMouseY - centerY - (penis.head.size);
