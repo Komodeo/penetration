@@ -1,8 +1,6 @@
-//build grid
-var grid = {
-  columns: 1,
-  rows: 1,
-  boxSize: 500,
+//build body
+var body = {
+  size: 500,
   rgb: {
     r: 252,
     g: 225,
@@ -11,11 +9,11 @@ var grid = {
 };
 
 //object sizes are multiplied by the scale
-scale = grid.boxSize / 100;
+scale = body.size / 100;
 
-//define objects
+//initialize vulva
 var vulva = {
-  posY: -5 * scale,
+  posY: -5 * scale, //position relative to centerY
   majora: {
     height: 80 * scale,  //height and width halved for convenience
     startWidth: 40 * scale,
@@ -45,6 +43,7 @@ var vulva = {
   }
 };
 
+//initialize penis
 var penis = {
   head: {
     size: 60 * scale,
@@ -63,7 +62,7 @@ var penis = {
     }
   },
   tipSize: 5 * scale,
-  posY: 0 * scale
+  posY: 0 * scale //position of tip relative to centerY
 };
 
 //global variables to anchor drawings
@@ -73,7 +72,7 @@ var penetrationPosY;
 
 function setup() {
   //create canvas
-  createCanvas(grid.columns * grid.boxSize, grid.rows * grid.boxSize);
+  createCanvas(body.size, body.size);
 
   //define variables to anchor drawings
   centerX = width / 2;
@@ -82,69 +81,100 @@ function setup() {
 }
 
 function draw() {
+  //draw the female bottom portion
+  drawBottom();
+
+  //draw the penis
+  drawPenis();
+
+  //draw the female top portion
+  drawTop();
+
+  //stretch vulva when penis enters
+  stretchVulva();
+}
+
+// Function to draw the female bottom half
+function drawBottom() {
+  
   //draw background
-  background(grid.rgb.r, grid.rgb.g, grid.rgb.b);
+  background(body.rgb.r, body.rgb.g, body.rgb.b);
+
+  //draw vulva bottom//
+  strokeWeight(0);
+
+  //majora
+  noStroke();
+  fill(vulva.majora.rgb.r, vulva.majora.rgb.g, vulva.majora.rgb.b);
+  arc(centerX, penetrationPosY, vulva.majora.width, vulva.majora.height, 0, PI);
+
+  //minora
+  fill(vulva.minora.rgb.r, vulva.minora.rgb.g, vulva.minora.rgb.b);
+  triangle(centerX + vulva.minora.width, penetrationPosY, //right
+    centerX, centerY + vulva.minora.height + vulva.posY, //bottom
+    centerX - vulva.minora.width, penetrationPosY); //left
+
+  //vagina
+  fill(vulva.vagina.rgb.r, vulva.vagina.rgb.g, vulva.vagina.rgb.b);
+  triangle(centerX + vulva.vagina.width, penetrationPosY, //right
+    centerX, centerY + vulva.vagina.height + vulva.posY, //bottom
+    centerX - vulva.vagina.width, penetrationPosY); //left
+}
+
+// Function to draw the penis
+function drawPenis() {
+
+  //move penis with mouse
+  penis.posY = winMouseY - centerY - penis.head.size;
 
   //variable for the center of the penis head
   penis.head.posY = centerY + penis.head.size / 2 + penis.posY;
 
-  //draw vulva bottom//
-  strokeWeight(0);
-  //draw majora top
-  noStroke();
-  fill(vulva.majora.rgb.r, vulva.majora.rgb.g, vulva.majora.rgb.b);
-  arc(centerX, penetrationPosY, vulva.majora.width, vulva.majora.height, 0, PI);
-  //minora
-  fill(vulva.minora.rgb.r, vulva.minora.rgb.g, vulva.minora.rgb.b);
-  beginShape();
-  vertex(centerX + vulva.minora.width, penetrationPosY); //right
-  vertex(centerX, centerY + vulva.minora.height + vulva.posY); //bottom
-  vertex(centerX - vulva.minora.width, penetrationPosY); //left
-  endShape(CLOSE);
-  //vagina
-  fill(vulva.vagina.rgb.r, vulva.vagina.rgb.g, vulva.vagina.rgb.b);
-  beginShape();
-  vertex(centerX + vulva.vagina.width, penetrationPosY); //right
-  vertex(centerX, centerY + vulva.vagina.height + vulva.posY); //bottom
-  vertex(centerX - vulva.vagina.width, penetrationPosY); //left
-  endShape(CLOSE);
+  //draw penis//
 
-  //draw penis//      
   //shaft
   fill(penis.shaft.rgb.r, penis.shaft.rgb.g, penis.shaft.rgb.b);
   rect(centerX - penis.shaft.size / 2, penis.head.posY, penis.shaft.size, height - penis.head.posY);
+
   //head
   fill(penis.head.rgb.r, penis.head.rgb.g, penis.head.rgb.b);
   ellipse(centerX, penis.head.posY, penis.head.size);
+
   //tip
   fill(0);
   ellipse(centerX, centerY + penis.tipSize / 2 + penis.posY, penis.tipSize);
+}
+
+// Function to draw the female top half
+function drawTop() {
 
   //draw background skin top
-  fill(grid.rgb.r, grid.rgb.g, grid.rgb.b);
+  fill(body.rgb.r, body.rgb.g, body.rgb.b);
   noStroke();
   rect(0, 0, width, penetrationPosY);
 
   //draw vulva top//
   strokeWeight(0);
-  //draw majora top
-  noStroke();
+
+  //majora
   fill(vulva.majora.rgb.r, vulva.majora.rgb.g, vulva.majora.rgb.b);
   arc(centerX, penetrationPosY, vulva.majora.width, vulva.majora.height, PI, 0);
+
   //minora
   fill(vulva.minora.rgb.r, vulva.minora.rgb.g, vulva.minora.rgb.b);
-  beginShape();
-  vertex(centerX, centerY - vulva.minora.height + vulva.posY); //top
-  vertex(centerX + vulva.minora.width, penetrationPosY); //right
-  vertex(centerX - vulva.minora.width, penetrationPosY); //left
-  endShape(CLOSE);
+  triangle(centerX, centerY - vulva.minora.height + vulva.posY, //top
+    centerX + vulva.minora.width, penetrationPosY, //right
+    centerX - vulva.minora.width, penetrationPosY); //left
+
   //vagina
   fill(vulva.vagina.rgb.r, vulva.vagina.rgb.g, vulva.vagina.rgb.b);
-  beginShape();
-  vertex(centerX, centerY - vulva.vagina.height + vulva.posY); //top
-  vertex(centerX + vulva.vagina.width, penetrationPosY); //right
-  vertex(centerX - vulva.vagina.width, penetrationPosY); //left
-  endShape(CLOSE);
+  triangle(centerX, centerY - vulva.vagina.height + vulva.posY, //top
+    centerX + vulva.vagina.width, penetrationPosY, //right
+    centerX - vulva.vagina.width, penetrationPosY); //left
+}
+
+// Function to stretch the vulva when the penis enters
+function stretchVulva() {
 
   //set variables for head collision detection (thanks, Pythagoras!)
   var PytY = dist(centerX, penetrationPosY, centerX, penis.head.posY);
@@ -165,10 +195,4 @@ function draw() {
   }
   vulva.minora.width = vulva.vagina.width + vulva.minora.startWidth - vulva.vagina.startWidth; //stretch minora
   vulva.majora.width = vulva.minora.width + vulva.majora.startWidth - vulva.minora.startWidth; //stretch majora
-
-  //move penis with mouse
-  penis.posY = winMouseY - centerY - penis.head.size;
 }
-
-
-
