@@ -14,6 +14,7 @@ scale = body.size / 100;
 //initialize vulva
 var vulva = {
   posY: -5 * scale, //position relative to centerY
+  quiver: 0.5, //amount of quiver on penetration
   majora: {
     height: 80 * scale,  //height and width halved for convenience
     startWidth: 40 * scale,
@@ -44,7 +45,11 @@ var vulva = {
 };
 
 //initialize penis
-var penis = {
+var penis = {  
+  tipSize: 5 * scale,
+  posX: 0 * scale, //position of penis relative to centerX
+  posY: 0 * scale, //position of tip relative to centerY
+  quiver: 0.5, //amount of quiver on penetration
   head: {
     size: 60 * scale,
     rgb: {
@@ -60,9 +65,7 @@ var penis = {
       g: 43,
       b: 12
     }
-  },
-  tipSize: 5 * scale,
-  posY: 0 * scale //position of tip relative to centerY
+  }
 };
 
 //global variables to anchor drawings
@@ -96,7 +99,7 @@ function draw() {
 
 // Function to draw the female bottom half
 function drawBottom() {
-  
+
   //draw background
   background(body.rgb.r, body.rgb.g, body.rgb.b);
 
@@ -134,15 +137,15 @@ function drawPenis() {
 
   //shaft
   fill(penis.shaft.rgb.r, penis.shaft.rgb.g, penis.shaft.rgb.b);
-  rect(centerX - penis.shaft.size / 2, penis.head.posY, penis.shaft.size, height - penis.head.posY);
+  rect(centerX + penis.posX - penis.shaft.size / 2, penis.head.posY, penis.shaft.size, height - penis.head.posY);
 
   //head
   fill(penis.head.rgb.r, penis.head.rgb.g, penis.head.rgb.b);
-  ellipse(centerX, penis.head.posY, penis.head.size);
+  ellipse(centerX + penis.posX, penis.head.posY, penis.head.size);
 
   //tip
   fill(0);
-  ellipse(centerX, centerY + penis.tipSize / 2 + penis.posY, penis.tipSize);
+  ellipse(centerX + penis.posX, centerY + penis.tipSize / 2 + penis.posY, penis.tipSize);
 }
 
 // Function to draw the female top half
@@ -177,17 +180,20 @@ function drawTop() {
 function stretchVulva() {
 
   //set variables for head collision detection (thanks, Pythagoras!)
-  var PytY = dist(centerX, penetrationPosY, centerX, penis.head.posY);
-  var PytH = penis.head.size / 2;
-  var PytX = sqrt(PytH * PytH - PytY * PytY);
+  var pytY = dist(centerX, penetrationPosY, centerX, penis.head.posY);
+  var pytH = penis.head.size / 2;
+  var pytX = sqrt(pytH * pytH - pytY * pytY);
 
   //stretch vulva when penis enters//
   if (penis.posY < vulva.posY) {
-    vulva.vagina.width = PytX + random(0, vulva.vagina.startWidth); //stretch vagina on head
+    //stretch vagina on head
+    vulva.vagina.width = pytX + random(-vulva.quiver, vulva.quiver); //quiver when penetrated
+    penis.posX = random(-penis.quiver, penis.quiver); //penis quivers on penetration
     //stretch vagina on shaft
-    if (vulva.vagina.width < penis.shaft.size / 2 + vulva.vagina.startWidth && penis.head.posY < penetrationPosY ||
+    if (vulva.vagina.width < penis.shaft.size / 2 + vulva.vagina.startWidth && 
+      penis.head.posY < penetrationPosY ||
       penis.head.posY < penetrationPosY - penis.head.size / 2) {
-      vulva.vagina.width = penis.shaft.size / 2 + random(0, vulva.vagina.startWidth);
+      vulva.vagina.width = penis.shaft.size / 2 + random(-vulva.quiver, vulva.quiver); //quiver when penetrated
     }
   }
   else {
