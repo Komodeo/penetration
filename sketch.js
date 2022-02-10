@@ -74,10 +74,11 @@ var penis = {
 
 //variables to control penetration
 var penetration = {
-  posYabs: 0,
+  posYabs: 0, //absolute position of penetration
   limit: {
-    posY: 0,
-    reached: false
+    posY: 0, //position of limit relative to centerY
+    reached: false,
+    acceleration: 2 //speed at which the limit changes
   }
 };
 
@@ -145,7 +146,7 @@ function drawPenis() {
   if (penis.posY < penetration.limit.posY) {
     penis.posY = penetration.limit.posY;
     if (!penetration.limit.reached) {
-      penetration.limit.posY--;
+      penetration.limit.posY-= penetration.limit.acceleration;
       penetration.limit.reached = true;
     }
   }
