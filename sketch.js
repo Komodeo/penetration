@@ -150,7 +150,7 @@ function drawPenis() {
       penetration.limit.reached = true;
     }
   }
-  else {
+  else if (penetration.limit.reached) {
     penetration.limit.reached = false;
   }
 
