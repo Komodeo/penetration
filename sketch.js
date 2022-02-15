@@ -19,6 +19,8 @@ scale = body.size / 100;
 var vulva = {
   posY: -5 * scale, //position relative to centerY
   quiver: 0.5, //amount of quiver on penetration
+  // topScale: 1, //scales up or down the top portion of the vulva
+  bottomScale: 0.5, //scales up or down the bottom portion of the vulva
   majora: {
     height: 80 * scale,  //height and width halved for convenience
     startWidth: 40 * scale,
@@ -121,18 +123,18 @@ function drawBottom() {
   //majora
   noStroke();
   fill(vulva.majora.rgb.r, vulva.majora.rgb.g, vulva.majora.rgb.b);
-  arc(centerX, penetration.posYabs, vulva.majora.width, vulva.majora.height, 0, PI);
+  arc(centerX, penetration.posYabs, vulva.majora.width, vulva.majora.height * vulva.bottomScale, 0, PI);
 
   //minora
   fill(vulva.minora.rgb.r, vulva.minora.rgb.g, vulva.minora.rgb.b);
   triangle(centerX + vulva.minora.width, penetration.posYabs, //right
-    centerX, centerY + vulva.minora.height + vulva.posY, //bottom
+    centerX, centerY + vulva.posY + vulva.minora.height * vulva.bottomScale, //bottom
     centerX - vulva.minora.width, penetration.posYabs); //left
 
   //vagina
   fill(vulva.vagina.rgb.r, vulva.vagina.rgb.g, vulva.vagina.rgb.b);
   triangle(centerX + vulva.vagina.width, penetration.posYabs, //right
-    centerX, centerY + vulva.vagina.height + vulva.posY, //bottom
+    centerX, centerY + vulva.posY + vulva.vagina.height * vulva.bottomScale, //bottom
     centerX - vulva.vagina.width, penetration.posYabs); //left
 }
 
